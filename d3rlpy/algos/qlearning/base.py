@@ -75,6 +75,7 @@ class QLearningAlgoImplBase(ImplBase):
 
     @eval_api
     def predict_best_action(self, x: TorchObservation) -> torch.Tensor:
+        LOG.warning("Predict best action from Algo Base")
         return self.inner_predict_best_action(x)
 
     @abstractmethod

@@ -21,6 +21,7 @@ from ....optimizers import OptimizerWrapper
 from ....torch_utility import CudaGraphWrapper, Modules, TorchMiniBatch
 from ....types import Shape, TorchObservation
 from ..base import QLearningAlgoImplBase
+from ....logging import LOG
 
 __all__ = ["BCImpl", "DiscreteBCImpl", "BCModules", "DiscreteBCModules"]
 
@@ -168,6 +169,7 @@ class DiscreteBCImpl(BCBaseImpl):
         self._beta = beta
 
     def inner_predict_best_action(self, x: TorchObservation) -> torch.Tensor:
+        LOG.warning("Discrete BC inner predict best action.")
         return self._modules.imitator(x).logits.argmax(dim=1)
 
     def compute_loss(
