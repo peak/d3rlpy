@@ -271,19 +271,23 @@ class QLearningAlgoBase(
         Returns:
             Greedy actions
         """
+        LOG.warning("Predict function call")
         assert self._impl is not None, IMPL_NOT_INITIALIZED_ERROR
         assert check_non_1d_array(x), "Input must have batch dimension."
+        LOG.warning("Simple check done.")
 
         torch_x = convert_to_torch_recursively(x, self._device)
-
+        LOG.warning("Convert to PyTorch done.")
         with torch.no_grad():
+            LOG.warning("Start")
             if self._config.observation_scaler:
                 torch_x = self._config.observation_scaler.transform(torch_x)
-
+            LOG.warning("Obs scaler done.")
             action = self._impl.predict_best_action(torch_x)
-
+            LOG.warning("Action done.")
             if self._config.action_scaler:
                 action = self._config.action_scaler.reverse_transform(action)
+            LOG.warning("Action scaler done.")
 
         return action.cpu().detach().numpy()  # type: ignore
 
