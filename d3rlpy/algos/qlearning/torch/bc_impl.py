@@ -170,7 +170,34 @@ class DiscreteBCImpl(BCBaseImpl):
 
     def inner_predict_best_action(self, x: TorchObservation) -> torch.Tensor:
         LOG.warning("Discrete BC inner predict best action.")
-        return self._modules.imitator(x).logits.argmax(dim=1)
+        try:
+            LOG.warning("Case-1 start")
+            c = self._modules.imitator(x)
+            LOG.warning("Case-1 end")
+        except Exception as e:
+            LOG.warning(e)
+            LOG.warning("Case-1 done")
+
+
+        try:
+            LOG.warning("Case-2 start")
+            a = c.logits
+            LOG.warning("Case-2 end")
+        except Exception as e:
+            LOG.warning(e)
+            LOG.warning("Case-2 done")
+
+        try:
+            LOG.warning("Case-3 start")
+            r = a.argmax(dim=1)
+            LOG.warning("Case-3 end")
+        except Exception as e:
+            LOG.warning(e)
+            LOG.warning("Case-3 done")
+
+        return r
+
+        # return self._modules.imitator(x).logits.argmax(dim=1)
 
     def compute_loss(
         self, obs_t: TorchObservation, act_t: torch.Tensor
