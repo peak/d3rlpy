@@ -567,7 +567,7 @@ class CudaGraphWrapper(Generic[BatchT_contra, RetT_co]):
         warmup_steps: int = 3,
         compile_func: bool = True,
     ):
-        self._func = torch.compile(func, backend="cudagraphs") if compile_func else func
+        self._func = torch.compile(func, mode="max-autotune-no-cudagraphs") if compile_func else func
         self._step = 0
         self._graph = None
         self._inpt = None
