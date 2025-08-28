@@ -25,7 +25,7 @@ from ..base import QLearningAlgoImplBase
 __all__ = ["BCImpl", "DiscreteBCImpl", "BCModules", "DiscreteBCModules"]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class BCBaseModules(Modules):
     optim: OptimizerWrapper
 
@@ -48,6 +48,8 @@ class BCBaseImpl(QLearningAlgoImplBase, metaclass=ABCMeta):
             modules=modules,
             device=device,
         )
+        if compiled:
+            self._modules.imitator = torch.compile(self._modules.imitator)
         self._compute_imitator_grad = (
             CudaGraphWrapper(self.compute_imitator_grad)
             if compiled
@@ -152,7 +154,7 @@ class BCImpl(BCBaseImpl):
         return self._modules.optim.optim
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass
 class DiscreteBCModules(BCBaseModules):
     imitator: CategoricalPolicy
 

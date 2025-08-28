@@ -442,7 +442,7 @@ class Checkpointer:
         return self._modules
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class Modules:
     def create_checkpointer(self, device: str) -> Checkpointer:
         modules = {
