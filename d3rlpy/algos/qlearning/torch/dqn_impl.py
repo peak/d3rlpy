@@ -21,14 +21,14 @@ from .utility import DiscreteQFunctionMixin
 __all__ = ["DQNImpl", "DQNModules", "DQNLoss", "DoubleDQNImpl"]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DQNModules(Modules):
     q_funcs: nn.ModuleList
     targ_q_funcs: nn.ModuleList
     optim: OptimizerWrapper
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DQNLoss:
     loss: torch.Tensor
 

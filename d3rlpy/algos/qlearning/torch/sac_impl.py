@@ -40,14 +40,14 @@ __all__ = [
 ]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class SACModules(DDPGBaseModules):
     policy: NormalPolicy
     log_temp: Parameter
     temp_optim: Optional[OptimizerWrapper]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class SACActorLoss(DDPGBaseActorLoss):
     temp: torch.Tensor
     temp_loss: torch.Tensor
@@ -132,7 +132,7 @@ class SACImpl(DDPGBaseImpl):
         return dist.sample()
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DiscreteSACModules(Modules):
     policy: CategoricalPolicy
     q_funcs: nn.ModuleList

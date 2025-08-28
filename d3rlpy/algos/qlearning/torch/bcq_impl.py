@@ -39,7 +39,7 @@ __all__ = [
 ]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class BCQModules(DDPGBaseModules):
     policy: DeterministicResidualPolicy
     targ_policy: DeterministicResidualPolicy
@@ -229,12 +229,12 @@ class BCQImpl(DDPGBaseImpl):
         return metrics
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DiscreteBCQModules(DQNModules):
     imitator: CategoricalPolicy
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DiscreteBCQLoss(DQNLoss):
     td_loss: torch.Tensor
     imitator_loss: torch.Tensor

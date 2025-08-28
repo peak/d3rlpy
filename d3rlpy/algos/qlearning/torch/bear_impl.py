@@ -43,7 +43,7 @@ def _laplacian_kernel(
     return (-(x - y).abs().sum(dim=3) / (2 * sigma)).exp()
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class BEARModules(SACModules):
     vae_encoder: VAEEncoder
     vae_decoder: VAEDecoder
@@ -52,7 +52,7 @@ class BEARModules(SACModules):
     alpha_optim: Optional[OptimizerWrapper]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class BEARActorLoss(SACActorLoss):
     mmd_loss: torch.Tensor
     alpha: torch.Tensor

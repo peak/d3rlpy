@@ -20,7 +20,7 @@ from ...types import Shape
 __all__ = ["FQEBaseImpl", "FQEImpl", "DiscreteFQEImpl", "FQEBaseModules"]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class FQEBaseModules(Modules):
     q_funcs: nn.ModuleList
     targ_q_funcs: nn.ModuleList

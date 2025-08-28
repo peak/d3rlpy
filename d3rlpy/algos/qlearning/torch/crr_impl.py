@@ -22,7 +22,7 @@ from .ddpg_impl import DDPGBaseActorLoss, DDPGBaseImpl, DDPGBaseModules
 __all__ = ["CRRImpl", "CRRModules"]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class CRRModules(DDPGBaseModules):
     policy: NormalPolicy
     targ_policy: NormalPolicy

@@ -34,7 +34,7 @@ __all__ = [
 ]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DDPGBaseModules(Modules):
     policy: Policy
     q_funcs: nn.ModuleList
@@ -43,12 +43,12 @@ class DDPGBaseModules(Modules):
     critic_optim: OptimizerWrapper
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DDPGBaseActorLoss:
     actor_loss: torch.Tensor
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DDPGBaseCriticLoss:
     critic_loss: torch.Tensor
 
@@ -183,7 +183,7 @@ class DDPGBaseImpl(
         return self._modules.critic_optim.optim
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DDPGModules(DDPGBaseModules):
     targ_policy: Policy
 

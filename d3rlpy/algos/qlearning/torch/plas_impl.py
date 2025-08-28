@@ -25,7 +25,7 @@ __all__ = [
 ]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class PLASModules(DDPGBaseModules):
     policy: DeterministicPolicy
     targ_policy: DeterministicPolicy
@@ -147,7 +147,7 @@ class PLASImpl(DDPGBaseImpl):
         return metrics
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class PLASWithPerturbationModules(PLASModules):
     perturbation: DeterministicResidualPolicy
     targ_perturbation: DeterministicResidualPolicy

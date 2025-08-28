@@ -27,7 +27,7 @@ __all__ = [
 ]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DecisionTransformerModules(Modules):
     transformer: ContinuousDecisionTransformer
     optim: OptimizerWrapper
@@ -94,7 +94,7 @@ class DecisionTransformerImpl(TransformerAlgoImplBase):
         return (loss.reshape(-1) * batch.masks.reshape(-1)).mean()
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DiscreteDecisionTransformerModules(Modules):
     transformer: DiscreteDecisionTransformer
     optim: OptimizerWrapper

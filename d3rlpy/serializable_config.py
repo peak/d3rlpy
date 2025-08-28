@@ -60,7 +60,7 @@ class DynamicConfig(SerializableConfig):
         raise NotImplementedError
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class ConfigMetadata:
     base_cls: type[DynamicConfig]
     encoder: Callable[[DynamicConfig], dict[str, Any]]

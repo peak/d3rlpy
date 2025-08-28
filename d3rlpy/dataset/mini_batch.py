@@ -16,7 +16,7 @@ from .utils import (
 __all__ = ["TransitionMiniBatch", "TrajectoryMiniBatch"]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class TransitionMiniBatch:
     r"""Mini-batch of transitions.
 
@@ -142,7 +142,7 @@ class TransitionMiniBatch:
         return int(self.actions.shape[0])
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class TrajectoryMiniBatch:
     r"""Mini-batch of trajectories.
 

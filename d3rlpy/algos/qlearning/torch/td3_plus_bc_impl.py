@@ -12,7 +12,7 @@ from .td3_impl import TD3Impl
 __all__ = ["TD3PlusBCImpl"]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class TD3PlusBCActorLoss(DDPGBaseActorLoss):
     bc_loss: torch.Tensor
 

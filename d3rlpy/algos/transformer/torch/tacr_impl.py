@@ -27,7 +27,7 @@ __all__ = [
 ]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class TACRModules(Modules):
     transformer: ContinuousDecisionTransformer
     actor_optim: OptimizerWrapper

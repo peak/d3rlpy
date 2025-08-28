@@ -12,7 +12,7 @@ from .td3_impl import TD3Impl
 __all__ = ["PRDCImpl"]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class PRDCActorLoss(DDPGBaseActorLoss):
     dc_loss: torch.Tensor
 

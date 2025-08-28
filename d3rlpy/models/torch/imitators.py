@@ -162,12 +162,12 @@ def compute_vae_error(
     return F.mse_loss(y, action) + cast(torch.Tensor, beta * kl_loss)
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class ImitationLoss:
     loss: torch.Tensor
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DiscreteImitationLoss(ImitationLoss):
     imitation_loss: torch.Tensor
     regularization_loss: torch.Tensor

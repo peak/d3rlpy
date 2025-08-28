@@ -7,7 +7,7 @@ from .logging import set_log_context
 __all__ = ["init_process_group", "destroy_process_group"]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DistributedWorkerInfo:
     rank: int
     backend: str

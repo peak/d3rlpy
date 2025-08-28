@@ -29,7 +29,7 @@ __all__ = [
 ]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class Signature:
     r"""Signature of arrays.
 
@@ -53,7 +53,7 @@ class Signature:
         ]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class Transition:
     r"""Transition tuple.
 
@@ -120,7 +120,7 @@ class Transition:
         )
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class PartialTrajectory:
     r"""Partial trajectory.
 
@@ -322,7 +322,7 @@ class EpisodeBase(Protocol):
         raise NotImplementedError
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class Episode:
     r"""Standard episode implementation.
 
@@ -395,7 +395,7 @@ class Episode:
         return self.size() if self.terminated else self.size() - 1
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DatasetInfo:
     r"""Dataset information.
 

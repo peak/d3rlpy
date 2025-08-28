@@ -199,7 +199,7 @@ def _compute_return_to_go(
     return np.sum(cum_gammas * rewards, axis=0)  # type: ignore
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class TorchMiniBatch:
     observations: TorchObservation
     actions: torch.Tensor
@@ -288,7 +288,7 @@ class TorchMiniBatch:
         self.intervals.copy_(src.intervals)
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class TorchTrajectoryMiniBatch:
     observations: TorchObservation  # (B, L, ...)
     actions: torch.Tensor  # (B, L, ...)

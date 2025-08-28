@@ -21,13 +21,13 @@ from .ddpg_impl import (
 __all__ = ["IQLImpl", "IQLModules"]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class IQLModules(DDPGBaseModules):
     policy: NormalPolicy
     value_func: ValueFunction
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class IQLCriticLoss(DDPGBaseCriticLoss):
     q_loss: torch.Tensor
     v_loss: torch.Tensor

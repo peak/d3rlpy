@@ -26,13 +26,13 @@ from .utility import sample_q_values_with_policy
 __all__ = ["CQLImpl", "DiscreteCQLImpl", "CQLModules", "DiscreteCQLLoss"]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class CQLModules(SACModules):
     log_alpha: Parameter
     alpha_optim: Optional[OptimizerWrapper]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class CQLCriticLoss(DDPGBaseCriticLoss):
     conservative_loss: torch.Tensor
     alpha: torch.Tensor
@@ -228,7 +228,7 @@ class CQLImpl(SACImpl):
             )
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class DiscreteCQLLoss(DQNLoss):
     td_loss: torch.Tensor
     conservative_loss: torch.Tensor

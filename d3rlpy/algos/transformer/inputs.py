@@ -23,7 +23,7 @@ from ...types import (
 __all__ = ["TransformerInput", "TorchTransformerInput"]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class TransformerInput:
     observations: ObservationSequence  # (L, ...)
     actions: NDArray  # (L, ...)
@@ -45,7 +45,7 @@ class TransformerInput:
         return get_axis_size(self.actions, axis=0)
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class TorchTransformerInput:
     observations: TorchObservation  # (1, L, ...)
     actions: torch.Tensor  # (1, L, ...)

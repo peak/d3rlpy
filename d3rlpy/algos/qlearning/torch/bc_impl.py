@@ -94,7 +94,7 @@ class BCBaseImpl(QLearningAlgoImplBase, metaclass=ABCMeta):
         return self.update_imitator(batch)
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass()
 class BCModules(BCBaseModules):
     imitator: Union[DeterministicPolicy, NormalPolicy]
 
