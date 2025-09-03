@@ -286,14 +286,14 @@ class QLearningAlgoBase(
         assert self._impl is not None, IMPL_NOT_INITIALIZED_ERROR
         assert check_non_1d_array(x), "Input must have batch dimension."
 
-        torch_x = convert_to_torch_recursively(x, self._device)
-        torch_embedding = (
-            None
-            if embedding is None
-            else convert_to_torch_recursively(embedding, self._device)
-        )
-
         with torch.inference_mode():
+            torch_x = convert_to_torch_recursively(x, self._device)
+            torch_embedding = (
+                None
+                if embedding is None
+                else convert_to_torch_recursively(embedding, self._device)
+            )
+
             if self._config.observation_scaler:
                 torch_x = self._config.observation_scaler.transform(torch_x)
 
