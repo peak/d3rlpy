@@ -293,7 +293,7 @@ class QLearningAlgoBase(
             else convert_to_torch_recursively(embedding, self._device)
         )
 
-        with torch.no_grad():
+        with torch.inference_mode():
             if self._config.observation_scaler:
                 torch_x = self._config.observation_scaler.transform(torch_x)
 
