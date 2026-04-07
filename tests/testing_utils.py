@@ -256,6 +256,7 @@ def create_partial_trajectory(
         timesteps=np.arange(length),
         masks=np.ones(length, dtype=np.float32),
         length=length,
+        embeddings=None,
     )
 
 

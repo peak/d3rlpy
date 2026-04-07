@@ -103,9 +103,9 @@ class _FQEBase(QLearningAlgoBase[FQEBaseImpl, FQEConfig]):
         assert self._algo is not None, ALGO_NOT_GIVEN_ERROR
         self._algo.save_policy(fname)
 
-    def predict(self, x: Observation) -> NDArray:
+    def predict(self, x: Observation, embedding: Optional[NDArray]) -> NDArray:
         assert self._algo is not None, ALGO_NOT_GIVEN_ERROR
-        return self._algo.predict(x)
+        return self._algo.predict(x, None)
 
     def sample_action(self, x: Observation) -> NDArray:
         assert self._algo is not None, ALGO_NOT_GIVEN_ERROR

@@ -204,6 +204,10 @@ class _ActiveEpisode(EpisodeBase):
         return self._terminated
 
     @property
+    def embeddings(self) -> None:
+        return None
+
+    @property
     def observation_signature(self) -> Signature:
         return self._observation_signature
 

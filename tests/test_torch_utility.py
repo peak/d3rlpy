@@ -260,6 +260,7 @@ def test_torch_mini_batch(
             rewards_to_go=np.random.random((10, 1)).astype(np.float32),
             terminal=0.0,
             interval=1,
+            embedding=None,
         )
         transitions.append(transition)
 
