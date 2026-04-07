@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import numpy as np
 import pytest
 
@@ -78,7 +78,7 @@ def test_frame_stack(num_stack: int) -> None:
 @pytest.mark.skip(reason="This needs actual Atari 2600 environments.")
 @pytest.mark.parametrize("is_eval", [True])
 def test_atari(is_eval: bool) -> None:
-    env = Atari(gym.make("BreakoutNoFrameskip-v4"), is_eval)
+    env = Atari(gymnasium.make("BreakoutNoFrameskip-v4"), is_eval)
 
     assert env.observation_space.shape == (1, 84, 84)
 

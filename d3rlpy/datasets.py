@@ -5,13 +5,11 @@ import re
 from typing import Any, Optional
 from urllib import request
 
-import gym
 import gymnasium
 import numpy as np
-from gym.wrappers.time_limit import TimeLimit
-from gymnasium.spaces import Box as GymnasiumBox
+from gymnasium.spaces import Box
 from gymnasium.spaces import Dict as GymnasiumDictSpace
-from gymnasium.wrappers import TimeLimit as GymnasiumTimeLimit
+from gymnasium.wrappers import TimeLimit
 
 from .dataset import (
     BasicTrajectorySlicer,
@@ -60,7 +58,7 @@ def get_cartpole(
     transition_picker: Optional[TransitionPickerProtocol] = None,
     trajectory_slicer: Optional[TrajectorySlicerProtocol] = None,
     render_mode: Optional[str] = None,
-) -> tuple[ReplayBuffer, gym.Env[NDArray, int]]:
+) -> tuple[ReplayBuffer, gymnasium.Env[NDArray, int]]:
     """Returns cartpole dataset and environment.
 
     The dataset is automatically downloaded to ``d3rlpy_data/cartpole.h5`` if
@@ -104,7 +102,7 @@ def get_cartpole(
     )
 
     # environment
-    env = gym.make("CartPole-v1", render_mode=render_mode)
+    env = gymnasium.make("CartPole-v1", render_mode=render_mode)
 
     return dataset, env
 
@@ -114,7 +112,7 @@ def get_pendulum(
     transition_picker: Optional[TransitionPickerProtocol] = None,
     trajectory_slicer: Optional[TrajectorySlicerProtocol] = None,
     render_mode: Optional[str] = None,
-) -> tuple[ReplayBuffer, gym.Env[NDArray, NDArray]]:
+) -> tuple[ReplayBuffer, gymnasium.Env[NDArray, NDArray]]:
     """Returns pendulum dataset and environment.
 
     The dataset is automatically downloaded to ``d3rlpy_data/pendulum.h5`` if
@@ -157,7 +155,7 @@ def get_pendulum(
     )
 
     # environment
-    env = gym.make("Pendulum-v1", render_mode=render_mode)
+    env = gymnasium.make("Pendulum-v1", render_mode=render_mode)
 
     return dataset, env
 
@@ -191,7 +189,7 @@ def get_atari(
     sticky_action: bool = True,
     pre_stack: bool = False,
     render_mode: Optional[str] = None,
-) -> tuple[ReplayBuffer, gym.Env[NDArray, int]]:
+) -> tuple[ReplayBuffer, gymnasium.Env[NDArray, int]]:
     """Returns atari dataset and envrironment.
 
     The dataset is provided through d4rl-atari. See more details including
@@ -221,7 +219,7 @@ def get_atari(
     try:
         import d4rl_atari  # type: ignore # noqa
 
-        env = gym.make(
+        env = gymnasium.make(
             env_name,
             render_mode=render_mode,
             sticky_action=sticky_action,
@@ -271,7 +269,7 @@ def get_atari_transitions(
     sticky_action: bool = True,
     pre_stack: bool = False,
     render_mode: Optional[str] = None,
-) -> tuple[ReplayBuffer, gym.Env[NDArray, int]]:
+) -> tuple[ReplayBuffer, gymnasium.Env[NDArray, int]]:
     """Returns atari dataset as a list of Transition objects and envrironment.
 
     The dataset is provided through d4rl-atari.
@@ -314,7 +312,7 @@ def get_atari_transitions(
         for i in range(50):
             env_name = f"{game_name}-epoch-{i + 1}-v{index}"
             LOG.info(f"Collecting {env_name}...")
-            env = gym.make(
+            env = gymnasium.make(
                 env_name,
                 sticky_action=sticky_action,
                 render_mode=render_mode,
@@ -388,7 +386,7 @@ def get_d4rl(
     trajectory_slicer: Optional[TrajectorySlicerProtocol] = None,
     render_mode: Optional[str] = None,
     max_episode_steps: int = 1000,
-) -> tuple[ReplayBuffer, gym.Env[NDArray, NDArray]]:
+) -> tuple[ReplayBuffer, gymnasium.Env[NDArray, NDArray]]:
     """Returns d4rl dataset and envrironment.
 
     The dataset is provided through d4rl.
@@ -422,7 +420,7 @@ def get_d4rl(
             NormalizedBoxEnv as NormalizedBoxEnvFromUtils,
         )
 
-        env = gym.make(env_name)
+        env = gymnasium.make(env_name)
         raw_dataset: dict[str, NDArray] = env.get_dataset()  # type: ignore
 
         observations = raw_dataset["observations"]
@@ -446,7 +444,7 @@ def get_d4rl(
         if isinstance(
             wrapped_env, (NormalizedBoxEnv, NormalizedBoxEnvFromUtils)
         ):
-            unwrapped_env: gym.Env[Any, Any] = wrapped_env.wrapped_env
+            unwrapped_env: gymnasium.Env[Any, Any] = wrapped_env.wrapped_env
             unwrapped_env.render_mode = render_mode  # overwrite
         elif isinstance(wrapped_env, MazeEnv):
             wrapped_env.render_mode = render_mode  # overwrite
@@ -500,7 +498,7 @@ def get_minari(
         unwrapped_env = env.unwrapped
         unwrapped_env.render_mode = render_mode
 
-        if isinstance(env.observation_space, GymnasiumBox):
+        if isinstance(env.observation_space, Box):
             env_type = _MinariEnvType.BOX
         elif (
             isinstance(env.observation_space, GymnasiumDictSpace)
@@ -576,7 +574,7 @@ def get_minari(
             trajectory_slicer=trajectory_slicer,
         )
 
-        return dataset, GymnasiumTimeLimit(
+        return dataset, TimeLimit(
             unwrapped_env, max_episode_steps=env.spec.max_episode_steps
         )
 
@@ -657,7 +655,7 @@ def get_dataset(
     transition_picker: Optional[TransitionPickerProtocol] = None,
     trajectory_slicer: Optional[TrajectorySlicerProtocol] = None,
     render_mode: Optional[str] = None,
-) -> tuple[ReplayBuffer, gym.Env[Any, Any]]:
+) -> tuple[ReplayBuffer, gymnasium.Env[Any, Any]]:
     """Returns dataset and envrironment by guessing from name.
 
     This function returns dataset by matching name with the following datasets.

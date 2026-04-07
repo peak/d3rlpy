@@ -8,7 +8,6 @@ from typing import (
     Union,
 )
 
-import gym
 import gymnasium
 import numpy as np
 
@@ -17,11 +16,10 @@ try:
 except ImportError:
     cv2 = None
 
-from gym.spaces import Box
-from gym.wrappers.transform_reward import TransformReward
-from gymnasium.spaces import Box as GymnasiumBox
+from gymnasium.spaces import Box
 from gymnasium.spaces import Dict as GymnasiumDictSpace
 from gymnasium.spaces import Tuple as GymnasiumTuple
+from gymnasium.wrappers import TransformReward
 
 from ..types import NDArray
 
@@ -37,19 +35,19 @@ _ObsType = TypeVar("_ObsType")
 _ActType = TypeVar("_ActType")
 
 
-class ChannelFirst(gym.Wrapper[_ObsType, _ActType]):
+class ChannelFirst(gymnasium.Wrapper):  # type: ignore
     """Channel-first wrapper for image observation environments.
 
     d3rlpy expects channel-first images since it's built with PyTorch.
     You can transform the observation shape with ``ChannelFirst`` wrapper.
 
     Args:
-        env (gym.Env): gym environment.
+        env (gymnasium.Env): gym environment.
     """
 
     observation_space: Box
 
-    def __init__(self, env: gym.Env[_ObsType, _ActType]):
+    def __init__(self, env: gymnasium.Env[_ObsType, _ActType]):
         super().__init__(env)
         shape = self.observation_space.shape
         low = self.observation_space.low
@@ -97,21 +95,21 @@ class ChannelFirst(gym.Wrapper[_ObsType, _ActType]):
         return observation_T, info  # type: ignore
 
 
-class FrameStack(gym.Wrapper[NDArray, _ActType]):
+class FrameStack(gymnasium.Wrapper):  # type: ignore
     """Observation wrapper that stacks the observations in a rolling manner.
 
     This wrapper is implemented based on gym.wrappers.FrameStack. The
     difference is that this wrapper returns stacked frames as numpy array.
 
     Args:
-        env (gym.Env): gym environment.
+        env (gymnasium.Env): gym environment.
         num_stack (int): the number of frames to stack.
     """
 
     _num_stack: int
     _frames: deque[NDArray]
 
-    def __init__(self, env: gym.Env[NDArray, _ActType], num_stack: int):
+    def __init__(self, env: gymnasium.Env[NDArray, _ActType], num_stack: int):
         super().__init__(env)
         self._num_stack = num_stack
         self._frames = deque(maxlen=num_stack)
@@ -151,7 +149,7 @@ class FrameStack(gym.Wrapper[NDArray, _ActType]):
 
 
 # https://github.com/openai/gym/blob/0.17.3/gym/wrappers/atari_preprocessing.py
-class AtariPreprocessing(gym.Wrapper[NDArray, int]):
+class AtariPreprocessing(gymnasium.Wrapper):  # type: ignore
     r"""Atari 2600 preprocessings.
     This class follows the guidelines in
     Machado et al. (2018), "Revisiting the Arcade Learning Environment:
@@ -190,7 +188,7 @@ class AtariPreprocessing(gym.Wrapper[NDArray, int]):
 
     def __init__(
         self,
-        env: gym.Env[NDArray, int],
+        env: gymnasium.Env[NDArray, int],
         noop_max: int = 30,
         frame_skip: int = 4,
         screen_size: int = 84,
@@ -330,18 +328,18 @@ class AtariPreprocessing(gym.Wrapper[NDArray, int]):
         return obs  # type: ignore
 
 
-class Atari(gym.Wrapper[NDArray, int]):
+class Atari(gymnasium.Wrapper):  # type: ignore
     """Atari 2600 wrapper for experiments.
 
     Args:
-        env (gym.Env): gym environment.
+        env (gymnasium.Env): gym environment.
         num_stack (int): the number of frames to stack.
         is_eval (bool): flag to enter evaluation mode.
     """
 
     def __init__(
         self,
-        env: gym.Env[NDArray, int],
+        env: gymnasium.Env[NDArray, int],
         num_stack: Optional[int] = None,
         is_eval: bool = False,
     ):
@@ -381,13 +379,13 @@ class GoalConcatWrapper(
     such as AntMaze int the non-hindsight training case.
 
     Args:
-        env (Union[gym.Env, gymnasium.Env]): Goal-conditioned environment.
+        env (Union[gymnasium.Env, gymnasium.Env]): Goal-conditioned environment.
         observation_key (str): String key of the main observation.
         goal_key (str): String key of the goal observation.
         tuple_observation (bool): Flag to include goals as tuple element.
     """
 
-    _observation_space: Union[GymnasiumBox, GymnasiumTuple]
+    _observation_space: Union[Box, GymnasiumTuple]
     _observation_key: str
     _goal_key: str
     _tuple_observation: bool
@@ -405,9 +403,9 @@ class GoalConcatWrapper(
         self._goal_key = goal_key
         self._tuple_observation = tuple_observation
         observation_space = env.observation_space[observation_key]
-        assert isinstance(observation_space, GymnasiumBox)
+        assert isinstance(observation_space, Box)
         goal_space = env.observation_space[goal_key]
-        if isinstance(goal_space, GymnasiumBox):
+        if isinstance(goal_space, Box):
             goal_space_low = goal_space.low
             goal_space_high = goal_space.high
         elif isinstance(goal_space, GymnasiumDictSpace):
@@ -442,7 +440,7 @@ class GoalConcatWrapper(
         else:
             low = np.concatenate([observation_space.low, goal_space_low])
             high = np.concatenate([observation_space.high, goal_space_high])
-            self._observation_space = GymnasiumBox(
+            self._observation_space = Box(
                 low=low,
                 high=high,
                 shape=low.shape,

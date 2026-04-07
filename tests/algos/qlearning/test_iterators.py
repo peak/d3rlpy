@@ -1,4 +1,3 @@
-import gym
 import gymnasium
 import pytest
 
@@ -12,8 +11,8 @@ from ...dummy_env import DummyAtari
 
 
 def test_fit_online_cartpole_with_dqn() -> None:
-    env = gym.make("CartPole-v1")
-    eval_env = gym.make("CartPole-v1")
+    env = gymnasium.make("CartPole-v1")
+    eval_env = gymnasium.make("CartPole-v1")
 
     algo = DQNConfig().create()
 
@@ -75,8 +74,8 @@ def test_fit_online_atari_with_dqn() -> None:
 
 
 def test_fit_online_pendulum_with_sac() -> None:
-    env = gym.make("Pendulum-v1")
-    eval_env = gym.make("Pendulum-v1")
+    env = gymnasium.make("Pendulum-v1")
+    eval_env = gymnasium.make("Pendulum-v1")
 
     algo = SACConfig().create()
 
@@ -110,7 +109,7 @@ def test_fit_online_gymnasium_pendulum_with_sac() -> None:
 
 @pytest.mark.parametrize("deterministic", [False, True])
 def test_collect_pendulum_with_sac(deterministic: bool) -> None:
-    env = gym.make("Pendulum-v1")
+    env = gymnasium.make("Pendulum-v1")
 
     algo = SACConfig().create()
 

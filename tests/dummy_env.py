@@ -1,13 +1,13 @@
 from typing import Any
 
-import gym
+import gymnasium
 import numpy as np
-from gym.spaces import Box, Discrete
+from gymnasium.spaces import Box, Discrete
 
 from d3rlpy.types import NDArray
 
 
-class DummyAtari(gym.Env[NDArray, int]):
+class DummyAtari(gymnasium.Env[NDArray, int]):
     def __init__(self, grayscale: bool = True, squeeze: bool = False):
         if grayscale:
             shape = (84, 84) if squeeze else (84, 84, 1)
