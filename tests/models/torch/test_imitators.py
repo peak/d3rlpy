@@ -137,7 +137,7 @@ def test_compute_discrete_imitation_loss(
     # check output shape
     x = create_torch_observations(observation_shape, batch_size)
     action = torch.randint(low=0, high=action_size, size=(batch_size,))
-    loss = compute_discrete_imitation_loss(policy, x, action, beta)
+    loss = compute_discrete_imitation_loss(policy, x, None, action, beta, 0.0)
     assert loss.loss.ndim == 0
     assert loss.imitation_loss.ndim == 0
     assert loss.regularization_loss.ndim == 0

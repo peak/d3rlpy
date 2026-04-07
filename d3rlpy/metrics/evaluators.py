@@ -105,7 +105,7 @@ class TDErrorEvaluator(EvaluatorProtocol):
                 values = algo.predict_value(batch.observations, batch.actions)
 
                 # estimate values for next observations
-                next_actions = algo.predict(batch.next_observations)
+                next_actions = algo.predict(batch.next_observations, None)
                 next_values = algo.predict_value(
                     batch.next_observations, next_actions
                 )
@@ -168,7 +168,7 @@ class DiscountedSumOfAdvantageEvaluator(EvaluatorProtocol):
                 )
 
                 # estimate values for the current policy
-                actions = algo.predict(batch.observations)
+                actions = algo.predict(batch.observations, None)
                 on_policy_values = algo.predict_value(
                     batch.observations, actions
                 )
@@ -220,7 +220,7 @@ class AverageValueEstimationEvaluator(EvaluatorProtocol):
             for batch in make_batches(
                 episode, WINDOW_SIZE, dataset.transition_picker
             ):
-                actions = algo.predict(batch.observations)
+                actions = algo.predict(batch.observations, None)
                 values = algo.predict_value(batch.observations, actions)
                 total_values += values.tolist()
         return float(np.mean(total_values))
@@ -265,7 +265,7 @@ class InitialStateValueEstimationEvaluator(EvaluatorProtocol):
             ):
                 # estimate action-value in initial states
                 first_obs = np.expand_dims(batch.observations[0], axis=0)
-                actions = algo.predict(first_obs)
+                actions = algo.predict(first_obs, None)
                 values = algo.predict_value(first_obs, actions)
                 total_values.append(values[0])
         return float(np.mean(total_values))
@@ -360,7 +360,7 @@ class ContinuousActionDiffEvaluator(EvaluatorProtocol):
             for batch in make_batches(
                 episode, WINDOW_SIZE, dataset.transition_picker
             ):
-                actions = algo.predict(batch.observations)
+                actions = algo.predict(batch.observations, None)
                 diff = ((batch.actions - actions) ** 2).sum(axis=1).tolist()
                 total_diffs += diff
         return float(np.mean(total_diffs))
@@ -400,7 +400,7 @@ class DiscreteActionMatchEvaluator(EvaluatorProtocol):
             for batch in make_batches(
                 episode, WINDOW_SIZE, dataset.transition_picker
             ):
-                actions = algo.predict(batch.observations)
+                actions = algo.predict(batch.observations, None)
                 match = (batch.actions.reshape(-1) == actions).tolist()
                 total_matches += match
         return float(np.mean(total_matches))
@@ -448,8 +448,8 @@ class CompareContinuousActionDiffEvaluator(EvaluatorProtocol):
             for batch in make_batches(
                 episode, WINDOW_SIZE, dataset.transition_picker
             ):
-                base_actions = self._base_algo.predict(batch.observations)
-                actions = algo.predict(batch.observations)
+                base_actions = self._base_algo.predict(batch.observations, None)
+                actions = algo.predict(batch.observations, None)
                 diff = ((actions - base_actions) ** 2).sum(axis=1).tolist()
                 total_diffs += diff
         return float(np.mean(total_diffs))
@@ -496,8 +496,8 @@ class CompareDiscreteActionMatchEvaluator(EvaluatorProtocol):
             for batch in make_batches(
                 episode, WINDOW_SIZE, dataset.transition_picker
             ):
-                base_actions = self._base_algo.predict(batch.observations)
-                actions = algo.predict(batch.observations)
+                base_actions = self._base_algo.predict(batch.observations, None)
+                actions = algo.predict(batch.observations, None)
                 match = (base_actions == actions).tolist()
                 total_matches += match
         return float(np.mean(total_matches))

@@ -27,7 +27,7 @@ def test_channel_first() -> None:
     # check with algorithm
     dqn = DQNConfig().create()
     dqn.build_with_env(wrapper)
-    dqn.predict(np.expand_dims(observation, axis=0))
+    dqn.predict(np.expand_dims(observation, axis=0), None)
 
 
 def test_channel_first_with_2_dim_obs() -> None:
@@ -49,7 +49,7 @@ def test_channel_first_with_2_dim_obs() -> None:
     # check with algorithm
     dqn = DQNConfig().create()
     dqn.build_with_env(wrapper)
-    dqn.predict(np.expand_dims(observation, axis=0))
+    dqn.predict(np.expand_dims(observation, axis=0), None)
 
 
 @pytest.mark.parametrize("num_stack", [4])
@@ -72,7 +72,7 @@ def test_frame_stack(num_stack: int) -> None:
     # check with algorithm
     dqn = DQNConfig().create()
     dqn.build_with_env(wrapper)
-    dqn.predict(np.expand_dims(observation, axis=0))
+    dqn.predict(np.expand_dims(observation, axis=0), None)
 
 
 @pytest.mark.skip(reason="This needs actual Atari 2600 environments.")

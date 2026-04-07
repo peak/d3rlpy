@@ -228,6 +228,7 @@ def create_transition(
         rewards_to_go=np.random.random((10, 1)).astype(np.float32),
         terminal=1.0 if terminated else 0.0,
         interval=1,
+        embedding=None,
     )
 
 

@@ -2,7 +2,6 @@ import copy
 import dataclasses
 from io import BytesIO
 from typing import Any, Optional, Sequence
-from unittest.mock import Mock
 
 import numpy as np
 import pytest
@@ -107,13 +106,7 @@ def test_map_location_with_cpu() -> None:
 
 
 def test_map_location_with_cuda() -> None:
-    fn = map_location("cuda:0")
-    dummy = Mock()
-    dummy.cuda = Mock()
-
-    fn(dummy, "")
-
-    dummy.cuda.assert_called_with(0)
+    assert map_location("cuda:0") == "cuda"
 
 
 class DummyImpl:

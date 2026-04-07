@@ -137,7 +137,7 @@ def test_categorical_policy(
 
     # check output shape
     x = create_torch_observations(observation_shape, batch_size)
-    dist = policy(x)
+    dist = policy(x, None)
     assert dist.probs.shape == (batch_size, action_size)
     assert dist.sample().shape == (batch_size,)
 

@@ -60,7 +60,7 @@ def test_pixel_encoder(
         assert torch.allclose(y, eval_y)
 
     # check layer connection
-    check_parameter_updates(encoder, (x,))
+    check_parameter_updates(encoder, (x, None))
 
 
 @pytest.mark.parametrize("shapes", [((4, 84, 84), 3136)])
@@ -110,14 +110,14 @@ def test_pixel_encoder_with_action(
 
     # check use of batch norm
     encoder.eval()
-    eval_y = encoder(x, action)
+    eval_y = encoder(x, action, None)
     if use_batch_norm or dropout_rate:
         assert not torch.allclose(y, eval_y)
     else:
         assert torch.allclose(y, eval_y)
 
     # check layer connection
-    check_parameter_updates(encoder, (x, action))
+    check_parameter_updates(encoder, (x, action, None))
 
 
 @pytest.mark.parametrize("observation_shape", [(100,)])
@@ -146,21 +146,21 @@ def test_vector_encoder(
     )
 
     x = torch.rand((batch_size, *observation_shape))
-    y = encoder(x)
+    y = encoder(x, None)
 
     # check output shape
     assert y.shape == (batch_size, hidden_units[-1])
 
     # check use of batch norm
     encoder.eval()
-    eval_y = encoder(x)
+    eval_y = encoder(x, None)
     if use_batch_norm or dropout_rate:
         assert not torch.allclose(y, eval_y)
     else:
         assert torch.allclose(y, eval_y)
 
     # check layer connection
-    check_parameter_updates(encoder, (x,))
+    check_parameter_updates(encoder, (x, None))
 
 
 @pytest.mark.parametrize("observation_shape", [(100,)])
@@ -199,21 +199,21 @@ def test_vector_encoder_with_action(
         action = torch.randint(0, action_size, size=(batch_size, 1))
     else:
         action = torch.rand((batch_size, action_size))
-    y = encoder(x, action)
+    y = encoder(x, action, None)
 
     # check output shape
     assert y.shape == (batch_size, hidden_units[-1])
 
     # check use of batch norm
     encoder.eval()
-    eval_y = encoder(x, action)
+    eval_y = encoder(x, action, None)
     if use_batch_norm or dropout_rate:
         assert not torch.allclose(y, eval_y)
     else:
         assert torch.allclose(y, eval_y)
 
     # check layer connection
-    check_parameter_updates(encoder, (x, action))
+    check_parameter_updates(encoder, (x, action, None))
 
 
 @pytest.mark.parametrize("observation_shape", [(100,)])
@@ -236,13 +236,13 @@ def test_simba_encoder(
     )
 
     x = torch.rand((batch_size, *observation_shape))
-    y = encoder(x)
+    y = encoder(x, None)
 
     # check output shape
     assert y.shape == (batch_size, output_size)
 
     # check layer connection
-    check_parameter_updates(encoder, (x,))
+    check_parameter_updates(encoder, (x, None))
 
 
 @pytest.mark.parametrize("observation_shape", [(100,)])
@@ -275,10 +275,10 @@ def test_simba_encoder_with_action(
         action = torch.randint(0, action_size, size=(batch_size, 1))
     else:
         action = torch.rand(batch_size, action_size)
-    y = encoder(x, action)
+    y = encoder(x, action, None)
 
     # check output shape
     assert y.shape == (batch_size, output_size)
 
     # check layer connection
-    check_parameter_updates(encoder, (x, action))
+    check_parameter_updates(encoder, (x, action, None))
