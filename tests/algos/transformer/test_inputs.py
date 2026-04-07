@@ -42,6 +42,7 @@ def test_torch_transformer_input(
         rewards=episode.rewards,
         returns_to_go=episode.rewards,
         timesteps=np.arange(length),
+        embeddings=None,
     )
 
     if length < context_size:

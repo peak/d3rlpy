@@ -3,8 +3,7 @@ from typing import Optional, Sequence
 
 import numpy as np
 import torch
-from gym.spaces import Box
-from gymnasium.spaces import Box as GymnasiumBox
+from gymnasium.spaces import Box
 
 from ..dataset import (
     Episode,
@@ -178,7 +177,7 @@ class MinMaxObservationScaler(ObservationScaler):
 
     def fit_with_env(self, env: GymEnv) -> None:
         assert not self.built
-        assert isinstance(env.observation_space, (Box, GymnasiumBox))
+        assert isinstance(env.observation_space, Box)
         low = np.asarray(env.observation_space.low)
         high = np.asarray(env.observation_space.high)
         self.minimum = low

@@ -26,6 +26,8 @@ def dump(episodes: Sequence[EpisodeBase], f: BinaryIO) -> None:
         for i, episode in enumerate(episodes):
             serializedData = episode.serialize()
             for key in keys:
+                if serializedData[key] is None:
+                    continue
                 if isinstance(serializedData[key], (list, tuple)):
                     for j in range(len(serializedData[key])):
                         elm = serializedData[key][j]
@@ -75,7 +77,10 @@ def load(episode_cls: type[_TEpisode], f: BinaryIO) -> Sequence[_TEpisode]:
                         else:
                             break
                         j += 1
-                    data[key] = tuple_data
+                    if tuple_data:
+                        data[key] = tuple_data
+                    else:
+                        data[key] = None
             episode = episode_cls.deserialize(data)
             episodes.append(episode)
     return episodes  # type: ignore

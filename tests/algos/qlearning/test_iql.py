@@ -23,6 +23,7 @@ def test_iql(observation_shape: Shape, scalers: Optional[str]) -> None:
         critic_encoder_factory=DummyEncoderFactory(),
         value_encoder_factory=DummyEncoderFactory(),
         observation_scaler=observation_scaler,
+
         action_scaler=action_scaler,
         reward_scaler=reward_scaler,
     )

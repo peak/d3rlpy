@@ -201,7 +201,7 @@ class DiscreteSACImpl(DiscreteQFunctionMixin, QLearningAlgoImplBase):
 
     def compute_target(self, batch: TorchMiniBatch) -> torch.Tensor:
         with torch.no_grad():
-            dist = self._modules.policy(batch.next_observations)
+            dist = self._modules.policy(batch.next_observations, None)
             log_probs = dist.logits
             probs = dist.probs
             if self._modules.log_temp is None:
@@ -255,7 +255,7 @@ class DiscreteSACImpl(DiscreteQFunctionMixin, QLearningAlgoImplBase):
             q_t = self._q_func_forwarder.compute_expected_q(
                 batch.observations, reduction="min"
             )
-        dist = self._modules.policy(batch.observations)
+        dist = self._modules.policy(batch.observations, None)
 
         loss = {}
         if self._modules.temp_optim:
@@ -303,12 +303,12 @@ class DiscreteSACImpl(DiscreteQFunctionMixin, QLearningAlgoImplBase):
             self.update_target()
         return metrics
 
-    def inner_predict_best_action(self, x: TorchObservation) -> torch.Tensor:
-        dist = self._modules.policy(x)
+    def inner_predict_best_action(self, x: TorchObservation, embedding: Optional[torch.Tensor]) -> torch.Tensor:
+        dist = self._modules.policy(x, None)
         return dist.probs.argmax(dim=1)
 
     def inner_sample_action(self, x: TorchObservation) -> torch.Tensor:
-        dist = self._modules.policy(x)
+        dist = self._modules.policy(x, None)
         return dist.sample()
 
     def update_target(self) -> None:

@@ -5,8 +5,7 @@ from abc import ABCMeta, abstractmethod
 from typing import BinaryIO, Callable, Generic, Optional, TypeVar, Union
 
 import torch
-from gym.spaces import Box
-from gymnasium.spaces import Box as GymnasiumBox
+from gymnasium.spaces import Box
 from typing_extensions import Self
 
 from ._version import __version__
@@ -363,7 +362,7 @@ class LearnableBase(Generic[TImpl_co, TConfig_co], metaclass=ABCMeta):
             env: gym-like environment.
         """
         assert isinstance(
-            env.observation_space, (Box, GymnasiumBox)
+            env.observation_space, Box
         ), f"Unsupported observation space: {type(env.observation_space)}"
         observation_shape = env.observation_space.shape
         action_size = detect_action_size_from_env(env)

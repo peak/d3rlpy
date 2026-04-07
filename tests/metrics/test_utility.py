@@ -2,10 +2,10 @@ from functools import reduce
 from operator import mul
 from typing import Any, Optional, Sequence
 
-import gym
+import gymnasium
 import numpy as np
 import pytest
-from gym import spaces
+from gymnasium import spaces
 
 from d3rlpy.metrics.utility import evaluate_qlearning_with_environment
 from d3rlpy.preprocessing import ActionScaler, ObservationScaler, RewardScaler
@@ -48,7 +48,7 @@ class DummyAlgo:
         return 1
 
 
-class DummyEnv(gym.Env[NDArray, NDArray]):
+class DummyEnv(gymnasium.Env[NDArray, NDArray]):
     def __init__(
         self,
         observations: NDArray,

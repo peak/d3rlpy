@@ -40,7 +40,7 @@ class EncoderWithAction(nn.Module, metaclass=ABCMeta):  # type: ignore
         pass
 
     def __call__(
-        self, x: TorchObservation, action: torch.Tensor
+        self, x: TorchObservation, action: torch.Tensor, embedding: Optional[torch.Tensor]
     ) -> torch.Tensor:
         return super().__call__(x, action)
 

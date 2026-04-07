@@ -30,7 +30,7 @@ class DummyAlgo:
         self.ref_y = ref_y
         self.action_scaler = action_scaler
 
-    def predict(self, x: Observation) -> NDArray:
+    def predict(self, x: Observation, embedding: Optional[NDArray]) -> NDArray:
         assert np.all(x == self.ref_x)
         return self.ref_y
 

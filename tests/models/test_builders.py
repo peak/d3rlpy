@@ -142,7 +142,7 @@ def test_create_categorical_policy(
     assert isinstance(policy, CategoricalPolicy)
 
     x = torch.rand((batch_size, *observation_shape))
-    dist = policy(x)
+    dist = policy(x, None)
     assert dist.probs.shape == (batch_size, action_size)
 
 
@@ -366,7 +366,7 @@ def test_create_continuous_decision_transformer(
     rtg = torch.rand(batch_size, context_size, 1)
     timesteps = torch.randint(0, max_timestep, size=(batch_size, context_size))
     attention_mask = torch.zeros(batch_size, context_size)
-    y = transformer(x, action, rtg, timesteps, attention_mask)
+    y = transformer(x, action, rtg, timesteps, attention_mask, None)
 
     assert y.shape == (batch_size, context_size, action_size)
 

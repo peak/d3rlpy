@@ -1,4 +1,5 @@
 import dataclasses
+from typing import Optional
 
 import torch
 import torch.nn.functional as F
@@ -141,7 +142,7 @@ class CRRImpl(DDPGBaseImpl):
                 reduction="min",
             )
 
-    def inner_predict_best_action(self, x: TorchObservation) -> torch.Tensor:
+    def inner_predict_best_action(self, x: TorchObservation, embedding: Optional[torch.Tensor]) -> torch.Tensor:
         # compute CWP
 
         dist = build_gaussian_distribution(self._modules.policy(x))

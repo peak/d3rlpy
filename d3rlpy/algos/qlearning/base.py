@@ -679,13 +679,14 @@ class QLearningAlgoBase(
         # setup logger
         if experiment_name is None:
             experiment_name = self.__class__.__name__ + "_online"
-        logger = D3RLPyLogger(
+        self.logger = D3RLPyLogger(
             algo=self,
             adapter_factory=logger_adapter,
             experiment_name=experiment_name,
             n_steps_per_epoch=n_steps_per_epoch,
             with_timestamp=with_timestamp,
         )
+        logger = self.logger
 
         # save hyperparameters
         save_config(self, logger)
@@ -842,7 +843,7 @@ class QLearningAlgoBase(
         for total_step in xrange(1, n_steps + 1):
             # sample exploration action
             if deterministic:
-                action = self.predict(np.expand_dims(observation, axis=0))[0]
+                action = self.predict(np.expand_dims(observation, axis=0), None)[0]
             else:
                 if explorer:
                     x = observation.reshape((1,) + observation.shape)

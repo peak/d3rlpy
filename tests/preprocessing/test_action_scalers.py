@@ -1,6 +1,6 @@
 from typing import Sequence
 
-import gym
+import gymnasium
 import numpy as np
 import pytest
 import torch
@@ -124,7 +124,7 @@ def test_min_max_action_scaler_with_trajectory_slicer(
 
 
 def test_min_max_action_scaler_with_env() -> None:
-    env = gym.make("Pendulum-v1")
+    env = gymnasium.make("Pendulum-v1")
 
     scaler = MinMaxActionScaler()
     assert not scaler.built

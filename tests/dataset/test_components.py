@@ -28,6 +28,7 @@ def test_transition(observation_size: int, action_size: int) -> None:
         rewards_to_go=np.random.random((10, 1)).astype(np.float32),
         terminal=0.0,
         interval=1,
+        embedding=None,
     )
     assert transition.observation_signature.shape[0] == (observation_size,)
     assert transition.observation_signature.dtype[0] == np.float32
@@ -52,6 +53,7 @@ def test_partial_trajectory(
         timesteps=np.arange(data_size),
         masks=np.ones(data_size, dtype=np.float32),
         length=data_size,
+        embeddings=None,
     )
     assert trajectory.observation_signature.shape[0] == (observation_size,)
     assert trajectory.action_signature.shape[0] == (action_size,)

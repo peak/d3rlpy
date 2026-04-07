@@ -36,7 +36,6 @@ if __name__ == "__main__":
             "torch>=2.5.0",
             "tqdm>=4.66.3",
             "h5py",
-            "gym>=0.26.0",
             "click",
             "typing-extensions",
             "structlog",

@@ -1,8 +1,6 @@
 from typing import Any
 
-from gym.spaces import Box, Discrete
-from gymnasium.spaces import Box as GymnasiumBox
-from gymnasium.spaces import Discrete as GymnasiumDiscrete
+from gymnasium.spaces import Box, Discrete
 
 from ..base import LearnableBase
 from ..constants import (
@@ -35,11 +33,11 @@ def assert_action_space_with_dataset(
 def assert_action_space_with_env(
     algo: LearnableBase[Any, Any], env: GymEnv
 ) -> None:
-    if isinstance(env.action_space, (Box, GymnasiumBox)):
+    if isinstance(env.action_space, Box):
         assert (
             algo.get_action_type() == ActionSpace.CONTINUOUS
         ), CONTINUOUS_ACTION_SPACE_MISMATCH_ERROR
-    elif isinstance(env.action_space, (Discrete, GymnasiumDiscrete)):
+    elif isinstance(env.action_space, Discrete):
         assert (
             algo.get_action_type() == ActionSpace.DISCRETE
         ), DISCRETE_ACTION_SPACE_MISMATCH_ERROR

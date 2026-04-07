@@ -56,7 +56,7 @@ class VAEEncoder(nn.Module):  # type: ignore
         self._latent_size = latent_size
 
     def forward(self, x: TorchObservation, action: torch.Tensor) -> Normal:
-        h = self._encoder(x, action)
+        h = self._encoder(x, action, None)
         mu = self._mu(h)
         logstd = self._logstd(h)
         clipped_logstd = logstd.clamp(self._min_logstd, self._max_logstd)
@@ -86,7 +86,7 @@ class VAEDecoder(nn.Module):  # type: ignore
     def forward(
         self, x: TorchObservation, latent: torch.Tensor, with_squash: bool
     ) -> torch.Tensor:
-        h = self._encoder(x, latent)
+        h = self._encoder(x, latent, None)
         if with_squash:
             return self._fc(h)
         return torch.tanh(self._fc(h))

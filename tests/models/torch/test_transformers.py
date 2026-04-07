@@ -246,13 +246,13 @@ def test_continuous_decision_transformer(
     rtg = torch.rand(batch_size, context_size, 1)
     timesteps = torch.randint(0, max_timestep, size=(batch_size, context_size))
     attention_mask = torch.zeros(batch_size, context_size)
-    y = model(x, action, rtg, timesteps, attention_mask)
+    y = model(x, action, rtg, timesteps, attention_mask, None)
 
     # check shape
     assert y.shape == (batch_size, context_size, action_size)
 
     # check layer connections
-    check_parameter_updates(model, (x, action, rtg, timesteps, attention_mask))
+    check_parameter_updates(model, (x, action, rtg, timesteps, attention_mask, None))
 
 
 @pytest.mark.parametrize("observation_shape", [(100,), ((100,), (200,))])

@@ -20,7 +20,7 @@ class ValueFunction(nn.Module):  # type: ignore
         self._fc = nn.Linear(hidden_size, 1)
 
     def forward(self, x: TorchObservation) -> torch.Tensor:
-        h = self._encoder(x)
+        h = self._encoder(x, None)
         return cast(torch.Tensor, self._fc(h))
 
     def __call__(self, x: TorchObservation) -> torch.Tensor:

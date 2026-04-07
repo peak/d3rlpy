@@ -61,7 +61,7 @@ class DummyAlgo:
         self.n_frames = 1
         self.reward_scaler = reward_scaler
 
-    def predict(self, x: Observation) -> NDArray:
+    def predict(self, x: Observation, embedding: Optional[np.ndarray] = None) -> NDArray:
         x = np.array(x)
         y = np.matmul(x.reshape(x.shape[0], -1), self.A)
         if self.discrete:

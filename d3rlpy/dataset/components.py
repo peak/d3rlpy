@@ -241,7 +241,7 @@ class EpisodeBase(Protocol):
         raise NotImplementedError
 
     @property
-    def embeddings(self) -> Float32NDArray:
+    def embeddings(self) -> Optional[Float32NDArray]:
         raise NotImplementedError
 
     @property

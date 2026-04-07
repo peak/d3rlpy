@@ -90,7 +90,7 @@ class DiscreteIQNQFunction(DiscreteQFunction):
         self._embed = nn.Linear(embed_size, hidden_size)
 
     def forward(self, x: TorchObservation) -> QFunctionOutput:
-        h = self._encoder(x)
+        h = self._encoder(x, None)
 
         if self.training:
             n_quantiles = self._n_quantiles
@@ -201,7 +201,7 @@ class ContinuousIQNQFunction(ContinuousQFunction, nn.Module):  # type: ignore
     def forward(
         self, x: TorchObservation, action: torch.Tensor
     ) -> QFunctionOutput:
-        h = self._encoder(x, action)
+        h = self._encoder(x, action, None)
 
         if self.training:
             n_quantiles = self._n_quantiles

@@ -104,7 +104,7 @@ class FQEBaseImpl(QLearningAlgoImplBase):
     def inner_update(
         self, batch: TorchMiniBatch, grad_step: int
     ) -> dict[str, float]:
-        next_actions = self._algo.predict_best_action(batch.next_observations)
+        next_actions = self._algo.predict_best_action(batch.next_observations, None)
 
         q_tpn = self.compute_target(batch, next_actions)
         loss = self.compute_loss(batch, q_tpn)

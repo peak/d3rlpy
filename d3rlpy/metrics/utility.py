@@ -19,12 +19,12 @@ def evaluate_qlearning_with_environment(
 
     .. code-block:: python
 
-        import gym
+        import gymnasium
 
         from d3rlpy.algos import DQN
         from d3rlpy.metrics.utility import evaluate_with_environment
 
-        env = gym.make('CartPole-v0')
+        env = gymnasium.make('CartPole-v0')
 
         cql = CQL()
 
@@ -80,12 +80,12 @@ def evaluate_transformer_with_environment(
 
     .. code-block:: python
 
-        import gym
+        import gymnasium
 
         from d3rlpy.algos import DQN
         from d3rlpy.metrics.utility import evaluate_with_environment
 
-        env = gym.make('CartPole-v0')
+        env = gymnasium.make('CartPole-v0')
 
         cql = CQL()
 

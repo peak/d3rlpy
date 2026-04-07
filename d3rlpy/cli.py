@@ -8,10 +8,9 @@ import subprocess
 from typing import TYPE_CHECKING, Any, Optional, Sequence
 
 import click
-import gym
 import gymnasium
 import numpy as np
-from gym.wrappers import RecordVideo
+from gymnasium.wrappers import RecordVideo
 
 from ._version import __version__
 from .algos import QLearningAlgoBase, TransformerAlgoBase
@@ -230,7 +229,7 @@ def export(model_path: str, output_path: str) -> None:
     algo.save_policy(output_path)
 
 
-def _exec_to_create_env(code: str) -> gym.Env[Any, Any]:
+def _exec_to_create_env(code: str) -> gymnasium.Env[Any, Any]:
     print(f"Executing '{code}'")
     variables: dict[str, Any] = {}
     exec(code, globals(), variables)
@@ -267,12 +266,9 @@ def record(
     algo = load_learnable(model_path)
 
     # wrap environment with Monitor
-    env: gym.Env[Any, Any]
+    env: gymnasium.Env[Any, Any]
     if env_id is not None:
-        if use_gymnasium:
-            env = gymnasium.make(env_id, render_mode="rgb_array")
-        else:
-            env = gym.make(env_id, render_mode="rgb_array")
+        env = gymnasium.make(env_id, render_mode="rgb_array")
     elif env_header is not None:
         env = _exec_to_create_env(env_header)
     else:
@@ -324,12 +320,9 @@ def play(
     algo = load_learnable(model_path)
 
     # wrap environment with Monitor
-    env: gym.Env[Any, Any]
+    env: gymnasium.Env[Any, Any]
     if env_id is not None:
-        if use_gymnasium:
-            env = gymnasium.make(env_id, render_mode="human")
-        else:
-            env = gym.make(env_id, render_mode="human")
+        env = gymnasium.make(env_id, render_mode="human")
     elif env_header is not None:
         env = _exec_to_create_env(env_header)
     else:

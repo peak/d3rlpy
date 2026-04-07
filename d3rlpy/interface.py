@@ -1,13 +1,13 @@
 from typing import Optional, Protocol, Union
 
 from .preprocessing import ActionScaler, ObservationScaler, RewardScaler
-from .types import NDArray, Observation
+from .types import Float32NDArray, NDArray, Observation
 
 __all__ = ["QLearningAlgoProtocol", "StatefulTransformerAlgoProtocol"]
 
 
 class QLearningAlgoProtocol(Protocol):
-    def predict(self, x: Observation) -> NDArray: ...
+    def predict(self, x: Observation, embedding: Optional[Float32NDArray] = None) -> NDArray: ...
 
     def predict_value(self, x: Observation, action: NDArray) -> NDArray: ...
 

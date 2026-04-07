@@ -316,6 +316,7 @@ class ContinuousDecisionTransformer(nn.Module):  # type: ignore
         return_to_go: torch.Tensor,
         timesteps: torch.Tensor,
         attention_mask: torch.Tensor,
+        embedding: Optional[torch.Tensor],
     ) -> torch.Tensor:
         batch_size, context_size, _ = return_to_go.shape
         position_embedding = self._position_encoding(timesteps)
@@ -324,7 +325,7 @@ class ContinuousDecisionTransformer(nn.Module):  # type: ignore
             flat_x = x.view(-1, *x.shape[2:])
         else:
             flat_x = [_x.view(-1, *_x.shape[2:]) for _x in x]
-        flat_state_embedding = self._encoder(flat_x)
+        flat_state_embedding = self._encoder(flat_x, None)
         state_embedding = flat_state_embedding.view(
             batch_size, context_size, -1
         )

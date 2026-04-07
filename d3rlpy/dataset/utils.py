@@ -2,9 +2,7 @@ from typing import Any, Sequence, TypeVar, Union, overload
 
 import numpy as np
 import numpy.typing as npt
-from gym.spaces import Box, Discrete
-from gymnasium.spaces import Box as GymnasiumBox
-from gymnasium.spaces import Discrete as GymnasiumDiscrete
+from gymnasium.spaces import Box, Discrete
 
 from ..constants import ActionSpace
 from ..types import (
@@ -344,9 +342,9 @@ def detect_action_space(actions: NDArray) -> ActionSpace:
 
 
 def detect_action_space_from_env(env: GymEnv) -> ActionSpace:
-    if isinstance(env.action_space, (Box, GymnasiumBox)):
+    if isinstance(env.action_space, Box):
         action_space = ActionSpace.CONTINUOUS
-    elif isinstance(env.action_space, (Discrete, GymnasiumDiscrete)):
+    elif isinstance(env.action_space, Discrete):
         action_space = ActionSpace.DISCRETE
     else:
         raise ValueError(f"Unsupported action_space: {type(env.action_space)}")
@@ -354,9 +352,9 @@ def detect_action_space_from_env(env: GymEnv) -> ActionSpace:
 
 
 def detect_action_size_from_env(env: GymEnv) -> int:
-    if isinstance(env.action_space, (Discrete, GymnasiumDiscrete)):
+    if isinstance(env.action_space, Discrete):
         action_size = env.action_space.n
-    elif isinstance(env.action_space, (Box, GymnasiumBox)):
+    elif isinstance(env.action_space, Box):
         action_size = env.action_space.shape[0]
     else:
         raise ValueError(f"Unsupported action_space: {type(env.action_space)}")
