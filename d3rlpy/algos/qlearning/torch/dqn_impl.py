@@ -1,5 +1,5 @@
 import dataclasses
-from typing import Callable
+from typing import Callable, Optional
 
 import torch
 from torch import nn
@@ -113,11 +113,11 @@ class DQNImpl(DiscreteQFunctionMixin, QLearningAlgoImplBase):
                 reduction="min",
             )
 
-    def inner_predict_best_action(self, x: TorchObservation) -> torch.Tensor:
+    def inner_predict_best_action(self, x: TorchObservation, embedding: Optional[torch.Tensor]) -> torch.Tensor:
         return self._q_func_forwarder.compute_expected_q(x).argmax(dim=1)
 
     def inner_sample_action(self, x: TorchObservation) -> torch.Tensor:
-        return self.inner_predict_best_action(x)
+        return self.inner_predict_best_action(x, None)
 
     def update_target(self) -> None:
         hard_sync(self._modules.targ_q_funcs, self._modules.q_funcs)
@@ -134,7 +134,7 @@ class DQNImpl(DiscreteQFunctionMixin, QLearningAlgoImplBase):
 class DoubleDQNImpl(DQNImpl):
     def compute_target(self, batch: TorchMiniBatch) -> torch.Tensor:
         with torch.no_grad():
-            action = self.inner_predict_best_action(batch.next_observations)
+            action = self.inner_predict_best_action(batch.next_observations, None)
             return self._targ_q_func_forwarder.compute_target(
                 batch.next_observations,
                 action,

@@ -54,7 +54,7 @@ class DiscreteQRQFunction(DiscreteQFunction):
         self._fc = nn.Linear(hidden_size, action_size * n_quantiles)
 
     def forward(self, x: TorchObservation) -> QFunctionOutput:
-        quantiles = self._fc(self._encoder(x))
+        quantiles = self._fc(self._encoder(x, None))
         quantiles = quantiles.view(-1, self._action_size, self._n_quantiles)
         return QFunctionOutput(
             q_value=quantiles.mean(dim=2),
@@ -141,7 +141,7 @@ class ContinuousQRQFunction(ContinuousQFunction):
     def forward(
         self, x: TorchObservation, action: torch.Tensor
     ) -> QFunctionOutput:
-        quantiles = self._fc(self._encoder(x, action))
+        quantiles = self._fc(self._encoder(x, action, None))
         return QFunctionOutput(
             q_value=quantiles.mean(dim=1, keepdim=True),
             quantiles=quantiles,

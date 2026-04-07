@@ -1,6 +1,6 @@
 import dataclasses
 from abc import ABCMeta, abstractmethod
-from typing import Callable
+from typing import Callable, Optional
 
 import torch
 from torch import nn
@@ -156,7 +156,7 @@ class DDPGBaseImpl(
     def compute_target(self, batch: TorchMiniBatch) -> torch.Tensor:
         pass
 
-    def inner_predict_best_action(self, x: TorchObservation) -> torch.Tensor:
+    def inner_predict_best_action(self, x: TorchObservation, embedding: Optional[torch.Tensor]) -> torch.Tensor:
         return self._modules.policy(x).squashed_mu
 
     @abstractmethod
@@ -234,7 +234,7 @@ class DDPGImpl(DDPGBaseImpl):
             )
 
     def inner_sample_action(self, x: TorchObservation) -> torch.Tensor:
-        return self.inner_predict_best_action(x)
+        return self.inner_predict_best_action(x, None)
 
     def update_actor_target(self) -> None:
         soft_sync(self._modules.targ_policy, self._modules.policy, self._tau)

@@ -184,13 +184,13 @@ def policy_copy_tester(
     algo2.create_impl(observation_shape, action_size)
     x = create_observations(observation_shape, 100)
 
-    action1 = algo.predict(x)
-    action2 = algo2.predict(x)
+    action1 = algo.predict(x, None)
+    action2 = algo2.predict(x, None)
     assert not np.all(action1 == action2)
 
     algo2.copy_policy_from(algo)
-    action1 = algo.predict(x)
-    action2 = algo2.predict(x)
+    action1 = algo.predict(x, None)
+    action2 = algo2.predict(x, None)
     assert np.all(action1 == action2)
 
 

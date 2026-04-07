@@ -91,7 +91,7 @@ class DeterministicResidualPolicy(Policy):
 
     def forward(self, x: TorchObservation, *args: Any) -> ActionOutput:
         action = args[0]
-        h = self._encoder(x, action)
+        h = self._encoder(x, action, None)
         residual_action = self._scale * torch.tanh(self._fc(h))
         action = (action + residual_action).clamp(-1.0, 1.0)
         return ActionOutput(mu=action, squashed_mu=action, logstd=None)

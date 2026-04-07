@@ -1,6 +1,6 @@
 import dataclasses
 import math
-from typing import Callable, cast
+from typing import Callable, cast, Optional
 
 import torch
 import torch.nn.functional as F
@@ -184,7 +184,7 @@ class BCQImpl(DDPGBaseImpl):
             flattened_x, flattend_action, "none"
         )
 
-    def inner_predict_best_action(self, x: TorchObservation) -> torch.Tensor:
+    def inner_predict_best_action(self, x: TorchObservation, embedding: Optional[torch.Tensor]) -> torch.Tensor:
         # TODO: this seems to be slow with image observation
         repeated_x = self._repeat_observation(x)
         action = self._sample_repeated_action(repeated_x)
@@ -194,7 +194,7 @@ class BCQImpl(DDPGBaseImpl):
         return action[torch.arange(action.shape[0]), index]
 
     def inner_sample_action(self, x: TorchObservation) -> torch.Tensor:
-        return self.inner_predict_best_action(x)
+        return self.inner_predict_best_action(x, None)
 
     def compute_target(self, batch: TorchMiniBatch) -> torch.Tensor:
         # TODO: this seems to be slow with image observation
@@ -282,14 +282,16 @@ class DiscreteBCQImpl(DoubleDQNImpl):
             x=batch.observations,
             action=batch.actions.long(),
             beta=self._beta,
+            embedding=None,
+            entropy_beta=0
         )
         loss = td_loss + imitator_loss.loss
         return DiscreteBCQLoss(
             loss=loss, td_loss=td_loss, imitator_loss=imitator_loss.loss
         )
 
-    def inner_predict_best_action(self, x: TorchObservation) -> torch.Tensor:
-        dist = self._modules.imitator(x)
+    def inner_predict_best_action(self, x: TorchObservation, embedding: Optional[torch.Tensor]) -> torch.Tensor:
+        dist = self._modules.imitator(x, embedding)
         log_probs = F.log_softmax(dist.logits, dim=1)
         ratio = log_probs - log_probs.max(dim=1, keepdim=True).values
         mask = (ratio > math.log(self._action_flexibility)).float()

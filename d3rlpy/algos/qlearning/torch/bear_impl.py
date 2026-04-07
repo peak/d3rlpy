@@ -268,7 +268,7 @@ class BEARImpl(SACImpl):
             log_temp = get_parameter(self._modules.log_temp)
             return values - log_temp.exp() * max_log_prob
 
-    def inner_predict_best_action(self, x: TorchObservation) -> torch.Tensor:
+    def inner_predict_best_action(self, x: TorchObservation, embedding: Optional[torch.Tensor]) -> torch.Tensor:
         batch_size = (
             x.shape[0] if isinstance(x, torch.Tensor) else x[0].shape[0]
         )

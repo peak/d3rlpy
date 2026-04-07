@@ -34,7 +34,7 @@ class DiscreteMeanQFunction(DiscreteQFunction):
 
     def forward(self, x: TorchObservation) -> QFunctionOutput:
         return QFunctionOutput(
-            q_value=self._fc(self._encoder(x)),
+            q_value=self._fc(self._encoder(x, None)),
             quantiles=None,
             taus=None,
         )
@@ -99,7 +99,7 @@ class ContinuousMeanQFunction(ContinuousQFunction):
         self, x: TorchObservation, action: torch.Tensor
     ) -> QFunctionOutput:
         return QFunctionOutput(
-            q_value=self._fc(self._encoder(x, action)),
+            q_value=self._fc(self._encoder(x, action, None)),
             quantiles=None,
             taus=None,
         )

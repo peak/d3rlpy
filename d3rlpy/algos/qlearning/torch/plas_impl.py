@@ -1,5 +1,5 @@
 import dataclasses
-from typing import Callable
+from typing import Callable, Optional
 
 import torch
 
@@ -105,12 +105,12 @@ class PLASImpl(DDPGBaseImpl):
         )[0].mean()
         return DDPGBaseActorLoss(loss)
 
-    def inner_predict_best_action(self, x: TorchObservation) -> torch.Tensor:
+    def inner_predict_best_action(self, x: TorchObservation, embedding: Optional[torch.Tensor]) -> torch.Tensor:
         latent_actions = 2.0 * self._modules.policy(x).squashed_mu
         return self._modules.vae_decoder(x, latent_actions)
 
     def inner_sample_action(self, x: TorchObservation) -> torch.Tensor:
-        return self.inner_predict_best_action(x)
+        return self.inner_predict_best_action(x, None)
 
     def compute_target(self, batch: TorchMiniBatch) -> torch.Tensor:
         with torch.no_grad():
@@ -199,13 +199,13 @@ class PLASWithPerturbationImpl(PLASImpl):
         )
         return DDPGBaseActorLoss(-q_value[0].mean())
 
-    def inner_predict_best_action(self, x: TorchObservation) -> torch.Tensor:
+    def inner_predict_best_action(self, x: TorchObservation, embedding: Optional[torch.Tensor]) -> torch.Tensor:
         latent_actions = 2.0 * self._modules.policy(x).squashed_mu
         actions = self._modules.vae_decoder(x, latent_actions)
         return self._modules.perturbation(x, actions).squashed_mu
 
     def inner_sample_action(self, x: TorchObservation) -> torch.Tensor:
-        return self.inner_predict_best_action(x)
+        return self.inner_predict_best_action(x, None)
 
     def compute_target(self, batch: TorchMiniBatch) -> torch.Tensor:
         with torch.no_grad():
