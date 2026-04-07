@@ -83,6 +83,7 @@ class TACRImpl(TransformerAlgoImplBase):
             inpt.returns_to_go,
             inpt.timesteps,
             1 - inpt.masks,
+            inpt.embeddings,
         )
         # (1, T, A) -> (A,)
         return action[0][-1]
@@ -131,6 +132,7 @@ class TACRImpl(TransformerAlgoImplBase):
             batch.returns_to_go,
             batch.timesteps,
             1 - batch.masks,
+            batch.embeddings,
         )
         # (B * T , 1)
         q_values = self._q_func_forwarder.compute_expected_q(
@@ -171,6 +173,7 @@ class TACRImpl(TransformerAlgoImplBase):
                 batch.returns_to_go,
                 batch.timesteps,
                 1 - batch.masks,
+                batch.embeddings,
             )[:, :-1].reshape(-1, self._action_size)
             # smoothing target
             noise = torch.randn(action.shape, device=batch.device)

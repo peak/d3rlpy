@@ -40,7 +40,7 @@ class ConstantEpsilonGreedy(Explorer):
     ) -> NDArray:
         action_size = algo.action_size
         assert action_size is not None
-        greedy_actions = algo.predict(x)
+        greedy_actions = algo.predict(x, None)
         batch_size = greedy_actions.shape[0]
         random_actions = np.random.randint(action_size, size=batch_size)
         is_random = np.random.random(batch_size) < self._epsilon
@@ -130,7 +130,7 @@ class NormalNoise(Explorer):
         Returns:
             Action with noise injection.
         """
-        action = algo.predict(x)
+        action = algo.predict(x, None)
         noise = np.random.normal(self._mean, self._std, size=action.shape)
 
         minimum: Union[float, NDArray]
